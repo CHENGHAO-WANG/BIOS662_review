@@ -506,4 +506,147 @@
   For the no-MI group, both defaults give the same box edges and whiskers.
 \end{frame}
 
+\section{HW2-Q2(d)}
+
+\begin{frame}{HW2-Q2(d): predict before calculating}
+  \begin{block}{Question}
+    Without re-doing any of your calculations, what effect do you think
+    changing the serum calcium value to the one you suggested would have
+    on the means and standard deviations in the first part of this problem?
+  \end{block}
+  \textbf{Context:} Part (a) summarizes plasma iPGE separately by
+  hypercalcemia status. Patient \#11 has Ca = 18.0 and iPGE = 60.
+  \begin{exampleblock}{Assume the corrected Ca moves patient \#11 to normocalcemia}
+    \begin{itemize}
+      \item Hypercalcemia: mean increases; SD is expected to decrease.
+      \item Normocalcemia: mean decreases; SD is expected to increase.
+    \end{itemize}
+    The unusually low iPGE value moves groups; its value remains 60.
+  \end{exampleblock}
+  \small If group membership stays fixed, the iPGE summaries do not change.
+\end{frame}
+
+\begin{frame}{Patient \#11: high Ca, lowest iPGE}
+  \centering
+  \includegraphics[width=0.9\textwidth,height=0.79\textheight,keepaspectratio]
+    {code/hw2_problem2_scatter.png}
+
+  \small The dashed line marks iPGE = 60, the lowest value in either group.
+\end{frame}
+
+\begin{frame}{Numerical follow-up: moving patient \#11}
+  \textbf{Only membership changes:} move iPGE = 60 from hypercalcemia
+  to normocalcemia. All iPGE measurements stay unchanged.
+  \begin{center}
+    \begin{tabular}{llrrr}
+      \toprule
+      Group & Membership & \(n\) & Mean & Sample SD \\
+      \midrule
+      Hypercalcemia & Before & 11 & 241.45 & 144.46 \\
+                    & After  & 10 & 259.60 & 138.43 \\
+      \midrule
+      Normocalcemia & Before & 10 & 147.50 & 46.17 \\
+                    & After  & 11 & 139.55 & 51.13 \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \begin{alertblock}{Interpretation}
+    Removing this low value reduces spread in the hypercalcemia group;
+    adding it increases spread in the normocalcemia group.
+  \end{alertblock}
+  \small Part (d) asks for a qualitative prediction. These calculations check
+  that prediction; the next slides explain the exact conditions.
+\end{frame}
+
+\begin{frame}{Adding one observation: sum of squares}
+  \small
+  For the original \(n\geq2\) observations, define
+  \[
+    \bar X=\frac1n\sum_{i=1}^n X_i,\qquad
+    Q=\sum_{i=1}^n(X_i-\bar X)^2=(n-1)s^2.
+  \]
+  Add \(X^*\), and write \(d=X^*-\bar X\). The new mean is
+  \[
+    \bar X_+=\frac{n\bar X+X^*}{n+1}=\bar X+\frac{d}{n+1}.
+  \]
+  Since \(\sum_{i=1}^n(X_i-\bar X)=0\), the cross term vanishes:
+  \[
+  \begin{aligned}
+    Q_+&=\sum_{i=1}^n\left[(X_i-\bar X)-\frac{d}{n+1}\right]^2
+         +\left(\frac{nd}{n+1}\right)^2\\
+       &=Q+\frac{nd^2}{(n+1)^2}+\frac{n^2d^2}{(n+1)^2}
+        =\boxed{Q+\frac{n}{n+1}d^2}.
+  \end{aligned}
+  \]
+  \alert{The sum of squares cannot decrease, but its variance denominator increases.}
+\end{frame}
+
+\begin{frame}{Adding one observation: when does variance increase?}
+  \small
+  With \(n+1\) observations, the new sample-variance denominator is \(n\):
+  \[
+    s_+^2=\frac{Q_+}{n}=\frac{n-1}{n}s^2+\frac{d^2}{n+1},
+    \qquad
+    s_+^2-s^2=\frac{d^2}{n+1}-\frac{s^2}{n}.
+  \]
+  Hence
+  \[
+    \boxed{s_+^2>s^2\ \Longleftrightarrow\
+    |X^*-\bar X|>\sqrt{\frac{n+1}{n}}\,s.}
+  \]
+  Equality gives unchanged variance; a smaller distance gives decreased variance.
+  \begin{alertblock}{Outside the observed range is not enough}
+    Adding 11 to \(\{0,10\}\) gives \(\{0,10,11\}\),
+    but sample variance decreases from 50 to 37.
+    The relevant distance is from the mean, relative to the existing SD.
+  \end{alertblock}
+  \textbf{Notation:} \(n,\bar X,s\) all refer to the sample \emph{before addition}.
+\end{frame}
+
+\begin{frame}{Removing one observation: sum of squares}
+  \small
+  Start with \(n\geq3\) observations; let \(Q=(n-1)s^2\) and
+  \(d_j=X_j-\bar X\). After removing \(X_j\),
+  \[
+    \bar X_- =\frac{n\bar X-X_j}{n-1}=\bar X-\frac{d_j}{n-1},
+    \qquad Q_-=\sum_{i\ne j}(X_i-\bar X_-)^2.
+  \]
+  For the remaining observations,
+  \(X_i-\bar X=(X_i-\bar X_-)-d_j/(n-1)\).
+  Using \(\sum_{i\ne j}(X_i-\bar X_-)=0\),
+  \[
+  \begin{aligned}
+    Q&=d_j^2+\sum_{i\ne j}
+            \left[(X_i-\bar X_-)-\frac{d_j}{n-1}\right]^2\\
+     &=d_j^2+Q_-+\frac{d_j^2}{n-1}
+      =Q_-+\frac{n}{n-1}d_j^2.
+  \end{aligned}
+  \]
+  Therefore \(\boxed{Q_-=(n-1)s^2-\frac{n}{n-1}d_j^2}\).
+  \quad The new variance denominator is \(n-2\).
+\end{frame}
+
+\begin{frame}{Removing one observation: when does variance decrease?}
+  \small
+  Divide the preceding sum of squares by \(n-2\), then subtract \(s^2\):
+  \[
+    s_-^2-s^2
+    =\frac{(n-1)s^2-\frac{n}{n-1}d_j^2}{n-2}-s^2
+    =\frac{s^2-\frac{n}{n-1}d_j^2}{n-2}.
+  \]
+  Since \(n-2>0\),
+  \[
+    \boxed{s_-^2<s^2\ \Longleftrightarrow\
+    |X_j-\bar X|>\sqrt{\frac{n-1}{n}}\,s.}
+  \]
+  Equality gives unchanged variance; a smaller distance gives increased variance.
+  \begin{block}{What ``sufficiently extreme'' means}
+    Distance from the original mean must exceed the threshold above.
+    Being the minimum or maximum alone does not guarantee a decrease.
+    SD changes in the same direction as variance.
+  \end{block}
+  \textbf{Notation:} \(n,\bar X,s\) refer to the sample \emph{before removal},
+  including \(X_j\).
+\end{frame}
+
 \end{document}
