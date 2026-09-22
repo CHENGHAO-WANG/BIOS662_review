@@ -6,6 +6,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{graphicx}
 
 \title{BIOS 662 Review}
 \author{Chenghao Wang}
@@ -361,6 +362,148 @@
           statistics; large-sample inference approximates those tails.
   \end{enumerate}
   \vfill
+\end{frame}
+
+\section{HW2-Q1(e)}
+
+\begin{frame}{HW2-Q1(e): SBP by MI status}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+      \centering
+      \includegraphics[
+        width=\linewidth,
+        height=0.53\textheight,
+        keepaspectratio
+      ]{code/hw2_problem1e_base_boxplot.png}
+
+      \small\textbf{Base R:} \texttt{boxplot()}
+    \column{0.49\textwidth}
+      \centering
+      \includegraphics[
+        width=\linewidth,
+        height=0.53\textheight,
+        keepaspectratio
+      ]{code/hw2_problem1e_ggplot_boxplot.png}
+
+      \small\textbf{ggplot2:} \texttt{geom\_boxplot()}
+  \end{columns}
+  \vfill
+  \begin{alertblock}{Comparison}
+    SBP tends to be higher in the MI group: its median is 126 mm Hg,
+    compared with 117 mm Hg in the no-MI group, and its upper tail extends farther.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Boxplot recap: fence versus whisker}
+  Let \(L\) and \(U\) denote the lower and upper edges of the box.
+  \[
+    \operatorname{IQR}=U-L,
+    \qquad
+    F_L=L-1.5\operatorname{IQR},
+    \qquad
+    F_U=U+1.5\operatorname{IQR}.
+  \]
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+      \begin{block}{What is drawn?}
+        \begin{itemize}
+          \item Box: from \(L\) to \(U\)
+          \item Line inside the box: median
+          \item Points beyond the whiskers: potential outliers
+        \end{itemize}
+      \end{block}
+    \column{0.49\textwidth}
+      \begin{block}{Whisker endpoints}
+        \[
+          W_L=\min\{x_i:x_i\geq F_L\},
+        \]
+        \[
+          W_U=\max\{x_i:x_i\leq F_U\}.
+        \]
+      \end{block}
+  \end{columns}
+  \begin{alertblock}{Key distinction}
+    A fence is a calculated cutoff; a whisker ends at an observed value.
+    They are equal only if an observation happens to lie exactly on the fence.
+  \end{alertblock}
+  \vfill
+  \scriptsize Source: BIOS 662 descriptive-statistics notes, p.~62.
+\end{frame}
+
+\begin{frame}{Default calculations: base R versus ggplot2}
+  \scriptsize
+  For ordered observations \(x_{(1)}\leq\cdots\leq x_{(n)}\):
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+      \begin{block}{Base R \texttt{boxplot()}: Tukey hinges}
+        \[
+          H_L=\operatorname{median}
+          \left(x_{(1)},\ldots,x_{(\lceil n/2\rceil)}\right),
+        \]
+        \[
+          H_U=\operatorname{median}
+          \left(x_{(\lfloor n/2\rfloor+1)},\ldots,x_{(n)}\right).
+        \]
+        If \(n\) is odd, the overall median is included in both halves.
+        \[
+          IQR_B=H_U-H_L,
+        \]
+        \[
+          F_L^{B}=H_L-1.5IQR_B,
+          \qquad
+          F_U^{B}=H_U+1.5IQR_B.
+        \]
+      \end{block}
+    \column{0.49\textwidth}
+      \begin{block}{ggplot2: type-7 quantiles}
+        For \(p\in\{0.25,0.75\}\), let
+        \[
+          h_p=1+(n-1)p,\quad j=\lfloor h_p\rfloor,
+          \quad \gamma=h_p-j,
+        \]
+        \[
+          Q_p=(1-\gamma)x_{(j)}+\gamma x_{(j+1)}.
+        \]
+        Then
+        \[
+          IQR_G=Q_{0.75}-Q_{0.25},
+        \]
+        \[
+          F_L^{G}=Q_{0.25}-1.5IQR_G,
+          \qquad
+          F_U^{G}=Q_{0.75}+1.5IQR_G.
+        \]
+      \end{block}
+  \end{columns}
+  \vspace{0.2em}
+  \alert{Same \(1.5\times IQR\) convention, but different default box edges.}
+\end{frame}
+
+\begin{frame}{Why the MI-group boxplots differ}
+  \small
+  \begin{center}
+    \begin{tabular}{lrr}
+      \toprule
+      \textbf{Quantity} & \textbf{Base R} & \textbf{ggplot2} \\
+      \midrule
+      Lower box edge & 105.50 & 106.25 \\
+      Median & 126.00 & 126.00 \\
+      Upper box edge & 145.50 & 145.25 \\
+      IQR / box length & 40.00 & 39.00 \\
+      Lower fence & 45.50 & 47.75 \\
+      Upper fence & 205.50 & 203.75 \\
+      Upper whisker & 205 & 185 \\
+      Is 205 an outlier? & No & Yes \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \begin{alertblock}{Interpretation}
+    In base R, \(205\leq205.50\), so the whisker reaches 205.
+    In ggplot2, \(205>203.75\), so 205 is plotted separately and the whisker
+    stops at the next-largest observation, 185.
+  \end{alertblock}
+  \vfill
+  For the no-MI group, both defaults give the same box edges and whiskers.
 \end{frame}
 
 \end{document}
