@@ -649,4 +649,83 @@
   including \(X_j\).
 \end{frame}
 
+\begin{frame}{Variance of the sample mean}
+  \small
+  Suppose \(X_1,\ldots,X_n\) are independent observations with
+  \(\E(X_i)=\mu\) and \(\Var(X_i)=\sigma^2\). Their sample mean is
+  \[
+    \bar X=\frac{1}{n}\sum_{i=1}^n X_i,\qquad \E(\bar X)=\mu.
+  \]
+  Independence makes the covariance terms zero, so
+  \[
+    \Var(\bar X)
+      =\Var\left(\frac{1}{n}\sum_{i=1}^n X_i\right)
+      =\frac{1}{n^2}\sum_{i=1}^n\Var(X_i)
+      =\boxed{\frac{\sigma^2}{n}}.
+  \]
+  \begin{block}{Interpretation}
+    Averaging \(n\) independent observations reduces variance by a factor
+    of \(n\); the standard deviation of \(\bar X\) is \(\sigma/\sqrt n\).
+  \end{block}
+\end{frame}
+
+\begin{frame}{Sample variance and estimated variance of \(\bar X\)}
+  \small
+  When the population variance \(\sigma^2\) is unknown, estimate it from
+  the observations (\(n\geq2\)):
+  \[
+    s^2=\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar X)^2.
+  \]
+  Under independent, identically distributed sampling,
+  \(\E(s^2)=\sigma^2\). Substitute \(s^2\) into \(\Var(\bar X)=\sigma^2/n\):
+  \[
+    \boxed{\widehat{\Var}(\bar X)=\frac{s^2}{n}},
+    \qquad
+    \boxed{\operatorname{SE}(\bar X)
+      =\frac{s}{\sqrt n}}.
+  \]
+  \begin{alertblock}{Keep the targets distinct}
+    \(s^2\) estimates the variance of individual observations;
+    \(s^2/n\) estimates the variance of their sample mean.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Linear transformations of a normal variable}
+  \small
+  If \(X\sim N(\mu,\sigma^2)\) and \(Y=a+bX\), then
+  \[
+    \E(Y)=a+b\mu,\qquad \Var(Y)=b^2\sigma^2.
+  \]
+  For \(b\neq0\), the transformed variable is also normal:
+  \[
+    \boxed{Y\sim N(a+b\mu,\;b^2\sigma^2)}.
+  \]
+  A negative \(b\) reverses direction but still gives a positive variance.
+  If \(b=0\), then \(Y=a\) is constant.
+  \begin{block}{Standardization}
+    For \(\sigma>0\), take \(a=-\mu/\sigma\) and \(b=1/\sigma\).
+    Then \(Z=(X-\mu)/\sigma\sim N(0,1)\).
+  \end{block}
+\end{frame}
+
+\begin{frame}{Linear transformations of a multivariate normal vector}
+  \small
+  Let \(\mathbf X\sim N_p(\boldsymbol\mu,\boldsymbol\Sigma)\).
+  For a fixed \(m\times p\) matrix \(A\) and a fixed vector \(\mathbf b\) with \(m\) entries,
+  \[
+    \E(A\mathbf X+\mathbf b)=A\boldsymbol\mu+\mathbf b,\qquad
+    \operatorname{Cov}(A\mathbf X+\mathbf b)=A\boldsymbol\Sigma A^{\mathsf T}.
+  \]
+  Therefore,
+  \[
+    \boxed{\mathbf Y=A\mathbf X+\mathbf b
+      \sim N_m(A\boldsymbol\mu+\mathbf b,\;A\boldsymbol\Sigma A^{\mathsf T})}.
+  \]
+  \begin{block}{Application: the sample mean}
+    If \(X_1,\ldots,X_n\) are independent \(N(\mu,\sigma^2)\),
+    then \(\mathbf X\sim N_n(\mu\mathbf 1,\sigma^2 I_n)\).
+    Taking \(A=\mathbf 1^{\mathsf T}/n\) and \(\mathbf b=0\) gives
+    \(\bar X\sim N(\mu,\sigma^2/n)\) exactly.
+  \end{block}
+\end{frame}
 \end{document}
