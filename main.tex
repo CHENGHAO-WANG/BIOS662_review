@@ -208,27 +208,6 @@
   but it does \alert{not} add information to the original study.
 \end{frame}
 
-\begin{frame}{A bootstrap algorithm}
-  Given observations \(x_1,\ldots,x_n\) and statistic
-  \(\widehat\theta=t(x_1,\ldots,x_n)\):
-  \begin{enumerate}
-    \item For \(b=1,\ldots,B\), sample \(n\) observations with replacement from
-          \(\{x_1,\ldots,x_n\}\).
-    \item Compute the statistic \(\widehat\theta^{*(b)}\) from bootstrap sample \(b\).
-    \item Use the empirical distribution
-          \(\widehat\theta^{*(1)},\ldots,\widehat\theta^{*(B)}\)
-          to estimate uncertainty.
-  \end{enumerate}
-  \begin{block}{For a bootstrap-\(t\) interval}
-    Studentize each replicate:
-    \[
-      Z^{*(b)}=\frac{\widehat\theta^{*(b)}-\widehat\theta}
-                       {\widehat{\operatorname{se}}^{*(b)}}.
-    \]
-    Quantiles of the \(Z^{*(b)}\)'s replace normal or \(t\) critical values.
-  \end{block}
-\end{frame}
-
 \begin{frame}{How large should \(B\) be?}
   \begin{itemize}
     \item The course examples use \(B=500\), which is enough to demonstrate the method.
@@ -241,6 +220,91 @@
   \end{alertblock}
   \textbf{Check:} If \(n=21\) and \(B=2000\), how many observations are in each
   ordinary nonparametric bootstrap sample?
+\end{frame}
+
+\begin{frame}{A bootstrap algorithm}
+  Given observations \(x_1,\ldots,x_n\) and statistic
+  \(\widehat\theta=t(x_1,\ldots,x_n)\):
+  \begin{enumerate}
+    \item For \(b=1,\ldots,B\), sample \(n\) observations with replacement from
+          \(\{x_1,\ldots,x_n\}\).
+    \item Compute the statistic \(\widehat\theta^{*(b)}\) from bootstrap sample \(b\).
+    \item Use the empirical distribution
+          \(\widehat\theta^{*(1)},\ldots,\widehat\theta^{*(B)}\)
+          to estimate uncertainty.
+  \end{enumerate}
+  \vfill
+  Different confidence intervals use these replicates in different ways.
+\end{frame}
+
+\section{Bootstrap confidence intervals}
+
+\begin{frame}{Percentile bootstrap interval}
+  Let \(Q_p^*\) be the \(p\) quantile of the bootstrap estimates
+  \(\widehat\theta^{*(1)},\ldots,\widehat\theta^{*(B)}\).
+  \begin{block}{A \(100(1-\alpha)\%\) interval}
+    \[
+      \left[Q_{\alpha/2}^*,\ Q_{1-\alpha/2}^*\right].
+    \]
+  \end{block}
+  \begin{itemize}
+    \item Use the middle \(100(1-\alpha)\%\) of the bootstrap estimates directly.
+    \item For 95\% confidence, take their 2.5th and 97.5th percentiles.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Basic (reverse percentile) bootstrap interval}
+  Let \(q_p^*\) be the \(p\) quantile of the bootstrap differences
+  \(\widehat\theta^{*(b)}-\widehat\theta\), for \(b=1,\ldots,B\).
+  \begin{block}{A \(100(1-\alpha)\%\) interval}
+    \[
+      \left[\widehat\theta-q_{1-\alpha/2}^*,\quad
+            \widehat\theta-q_{\alpha/2}^*\right].
+    \]
+  \end{block}
+  Since \(q_p^*=Q_p^*-\widehat\theta\), where \(Q_p^*\) is the \(p\)
+  quantile of the bootstrap estimates from the previous slide,
+  this is equivalently
+  \[
+    \left[2\widehat\theta-Q_{1-\alpha/2}^*,\quad
+          2\widehat\theta-Q_{\alpha/2}^*\right].
+  \]
+\end{frame}
+
+\begin{frame}{Bootstrap SE with a normal approximation}
+  Estimate the standard error by the standard deviation of the
+  bootstrap estimates:
+  \[
+    \widehat{\operatorname{se}}_{\rm boot}
+      =\operatorname{sd}\!\left(\widehat\theta^{*(1)},\ldots,
+                                   \widehat\theta^{*(B)}\right).
+  \]
+  \begin{block}{A \(100(1-\alpha)\%\) interval}
+    \[
+      \widehat\theta\ \pm\ z_{1-\alpha/2}
+                            \widehat{\operatorname{se}}_{\rm boot}.
+    \]
+  \end{block}
+  For 95\% confidence, \(z_{0.975}\approx 1.96\). This method works best
+  when the sampling distribution is approximately normal and bias is small.
+\end{frame}
+
+\begin{frame}{Bootstrap-\(t\) interval}
+  Standardize each bootstrap estimate by its \emph{own} estimated SE:
+  \[
+    Z^{*(b)}=\frac{\widehat\theta^{*(b)}-\widehat\theta}
+                    {\widehat{\operatorname{se}}^{*(b)}}.
+  \]
+  Let \(r_p^*\) be the \(p\) quantile of the \(Z^{*(b)}\)'s.
+  \begin{block}{A \(100(1-\alpha)\%\) interval}
+    \[
+      \left[\widehat\theta-r_{1-\alpha/2}^*\widehat{\operatorname{se}},\quad
+            \widehat\theta-r_{\alpha/2}^*\widehat{\operatorname{se}}\right],
+    \]
+    where \(\widehat{\operatorname{se}}\) is the SE from the original sample.
+  \end{block}
+  Bootstrap quantiles replace the usual \(t\) critical values;
+  estimating an SE within every resample adds computation.
 \end{frame}
 
 \section{Exact and large-sample inference}
