@@ -11,7 +11,10 @@ boxplots, plus an HW2-Q2(d) module on reclassifying patient #11, with an iPGE
 scatter plot, before/after group summaries, and proofs of the sample-variance
 conditions for adding or removing an observation. Final frames cover the variance
 of a sample mean, its sample-based estimate, and linear transformations of a
-univariate and multivariate normal variables. It uses standard Beamer
+univariate and multivariate normal variables. The final review module
+summarizes one-sample and independent two-sample tests, paired-data
+choices, and four test-selection practice scenarios with an answer key.
+It uses standard Beamer
 packages and the Madrid theme so it can compile
 with a normal MiKTeX or TeX Live installation.
 

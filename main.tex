@@ -792,4 +792,217 @@
     \(\bar X\sim N(\mu,\sigma^2/n)\) exactly.
   \end{block}
 \end{frame}
-\end{document}
+\section{Choosing one- and two-sample tests}
+
+\begin{frame}{One sample: tests of a mean}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+      \begin{block}{One-sample \(t\)-test}
+        \begin{itemize}
+          \item \textbf{Hypothesis:} \(H_0:\mu=\mu_0\) vs.\ \(H_A:\mu\ne\mu_0\).
+          \item \textbf{Assume:} independent observations from a normal population.
+          \item \textbf{Statistic:} \(\displaystyle T=\frac{\bar Y-\mu_0}{s/\sqrt n}\). Under \(H_0\), \(T\sim t_{n-1}\) exactly.
+          \item \textbf{Use:} a small sample when the target is a mean.
+          \item \textbf{Tradeoff:} exact under normality; skewness and outliers matter with small \(n\).
+        \end{itemize}
+      \end{block}
+    \column{0.49\textwidth}
+      \begin{block}{Large-sample \(z\)-test}
+        \begin{itemize}
+          \item \textbf{Hypothesis:} \(H_0:\mu=\mu_0\) vs.\ \(H_A:\mu\ne\mu_0\).
+          \item \textbf{Assume:} independent observations, finite variance, and sufficiently large \(n\).
+          \item \textbf{Statistic:} \(\displaystyle Z_n=\frac{\bar Y-\mu_0}{s/\sqrt n}\). Under \(H_0\), \(Z_n\xrightarrow{d}N(0,1)\).
+          \item \textbf{Use:} a large sample; raw outcomes need not be normal.
+          \item \textbf{Tradeoff:} flexible via the CLT; accuracy can suffer with severe skew or heavy tails.
+        \end{itemize}
+      \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{One sample: tests of a median}
+  \footnotesize
+  Let \(m_0\) be the proposed population median.
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+      \begin{block}{Sign test}
+        \begin{itemize}
+          \item \textbf{Hypothesis:} \(H_0:m=m_0\) vs.\ \(H_A:m\ne m_0\).
+          \item \textbf{Assume:} independent observations from a continuous distribution; no symmetry needed.
+          \item \textbf{Statistic:} count observations above \(m_0\); under \(H_0\), the count is \(\operatorname{Binomial}(n,1/2)\).
+          \item \textbf{Use:} a median question with skewed or outlier-prone data.
+          \item \textbf{Tradeoff:} robust, but discards magnitude and can have low power.
+        \end{itemize}
+      \end{block}
+    \column{0.49\textwidth}
+      \begin{block}{Wilcoxon signed-rank test}
+        \begin{itemize}
+          \item \textbf{Hypothesis:} \(H_0:m=m_0\) vs.\ \(H_A:m\ne m_0\).
+          \item \textbf{Assume:} independent observations from a distribution symmetric about its median.
+          \item \textbf{Statistic:} rank \(\lvert Y_i-m_0\rvert\), then sum ranks with positive signs.
+          \item \textbf{Use:} nonnormal but approximately symmetric data.
+          \item \textbf{Tradeoff:} uses more information than signs; symmetry is essential.
+        \end{itemize}
+      \end{block}
+  \end{columns}
+  \vspace{1mm}
+  \scriptsize For exact procedures, handle observations equal to \(m_0\) and tied ranks as specified by the method.
+\end{frame}
+
+\begin{frame}{Two independent samples: small-sample mean tests}
+  \footnotesize
+  Both test \(H_0:\mu_1-\mu_2=\delta_0\) vs.\ \(H_A:\mu_1-\mu_2\ne\delta_0\).
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+      \begin{block}{Pooled two-sample \(t\)-test}
+        \begin{itemize}
+          \item \textbf{Assume:} independent normal samples with equal population variances.
+          \item \textbf{Statistic:} \(\displaystyle T_p=\frac{\bar Y_1-\bar Y_2-\delta_0}{s_p\sqrt{1/n_1+1/n_2}}\). Under \(H_0\), \(T_p\sim t_{n_1+n_2-2}\) exactly.
+          \item \textbf{Use:} two unrelated, roughly normal groups when equal variances are credible.
+          \item \textbf{Tradeoff:} efficient if variances agree; misleading standard error if they differ.
+        \end{itemize}
+      \end{block}
+    \column{0.49\textwidth}
+      \begin{block}{Welch two-sample \(t\)-test}
+        \begin{itemize}
+          \item \textbf{Assume:} independent normal samples; variances may differ.
+          \item \textbf{Statistic:} \(\displaystyle T_W=\frac{\bar Y_1-\bar Y_2-\delta_0}{\sqrt{s_1^2/n_1+s_2^2/n_2}}\). Under \(H_0\), \(T_W\xrightarrow{d}N(0,1)\); for small samples, use an approximate \(t\) reference with Welch degrees of freedom.
+          \item \textbf{Use:} two unrelated, roughly normal groups with unequal or uncertain variances.
+          \item \textbf{Tradeoff:} avoids equal-variance assumption; small-sample reference is approximate.
+        \end{itemize}
+      \end{block}
+  \end{columns}
+  \vspace{1mm}
+  \scriptsize Here \(s_p^2=\bigl[(n_1-1)s_1^2+(n_2-1)s_2^2\bigr]/(n_1+n_2-2)\).
+\end{frame}
+
+\begin{frame}{Two independent samples: large means or variances}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+      \begin{block}{Large-sample \(z\)-test for means}
+        \begin{itemize}
+          \item \textbf{Hypothesis:} \(H_0:\mu_1-\mu_2=\delta_0\) vs.\ \(H_A:\mu_1-\mu_2\ne\delta_0\).
+          \item \textbf{Assume:} independent groups; both samples large with finite variances.
+          \item \textbf{Statistic:} \(\displaystyle Z=\frac{\bar Y_1-\bar Y_2-\delta_0}{\sqrt{s_1^2/n_1+s_2^2/n_2}}\). Under \(H_0\), \(Z\xrightarrow{d}N(0,1)\).
+          \item \textbf{Use:} comparing means when normality or equal variances are doubtful.
+          \item \textbf{Tradeoff:} broad applicability; still relies on large-sample approximation.
+        \end{itemize}
+      \end{block}
+    \column{0.49\textwidth}
+      \begin{block}{\(F\)-test for equality of variances}
+        \begin{itemize}
+          \item \textbf{Hypothesis:} \(H_0:\sigma_1^2=\sigma_2^2\) vs.\ \(H_A:\sigma_1^2\ne\sigma_2^2\).
+          \item \textbf{Assume:} independent normal samples.
+          \item \textbf{Statistic:} \(\displaystyle F=\frac{s_1^2}{s_2^2}\). Under \(H_0\), \(F\sim F_{n_1-1,n_2-1}\) exactly.
+          \item \textbf{Use:} when the variances themselves are the scientific target.
+          \item \textbf{Tradeoff:} exact under normality; extremely sensitive to nonnormality.
+        \end{itemize}
+      \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Two independent samples: ranks or randomization}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+      \begin{block}{Wilcoxon rank-sum / Mann--Whitney}
+        \begin{itemize}
+          \item \textbf{Hypothesis:} \(H_0:F_1=F_2\); \(H_A\): a nonzero location shift.
+          \item \textbf{Assume:} independent samples; similar shapes for a pure location interpretation.
+          \item \textbf{Statistic:} pool and rank all outcomes; sum the ranks in one group.
+          \item \textbf{Use:} a nonnormal, two-group location comparison.
+          \item \textbf{Tradeoff:} avoids normality; a difference may reflect shape or spread, not only medians.
+        \end{itemize}
+      \end{block}
+    \column{0.49\textwidth}
+      \begin{block}{Permutation test}
+        \begin{itemize}
+          \item \textbf{Hypothesis:} under the sharp null, assignment changes no participant's outcome.
+          \item \textbf{Assume:} randomized assignment; retain the actual assignment scheme.
+          \item \textbf{Statistic:} choose a contrast, e.g.\ \(\bar Y_1-\bar Y_2\); compare it with its values under reassignment.
+          \item \textbf{Use:} a randomized two-group study, especially with small samples.
+          \item \textbf{Tradeoff:} finite-sample randomization inference; result depends on the chosen contrast.
+        \end{itemize}
+      \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Whole distributions and paired observations}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \column{0.49\textwidth}
+      \begin{block}{Two-sample Kolmogorov--Smirnov test}
+        \begin{itemize}
+          \item \textbf{Hypothesis:} \(H_0:F_1(y)=F_2(y)\) for every \(y\); \(H_A\): they differ somewhere.
+          \item \textbf{Assume:} independent samples from continuous distributions.
+          \item \textbf{Statistic:} largest vertical gap between the two empirical CDFs.
+          \item \textbf{Use:} asking whether the entire distributions differ.
+          \item \textbf{Tradeoff:} detects location or shape changes; less targeted for a specific mean or median, and ties complicate standard calibration.
+        \end{itemize}
+      \end{block}
+    \column{0.49\textwidth}
+      \begin{exampleblock}{Paired data: first take differences}
+        For each pair, define \(D_i=Y_{i,\mathrm{after}}-Y_{i,\mathrm{before}}\).
+        Then ask a \emph{one-sample} question about the \(D_i\):
+        \begin{itemize}
+          \item mean, normal differences: one-sample \(t\)-test;
+          \item mean, many differences: large-sample \(z\)-test;
+          \item median, asymmetric differences: sign test;
+          \item median, symmetric differences: signed-rank test.
+        \end{itemize}
+        For the paired \(t\)-test, \(\displaystyle T_D=\frac{\bar D-\delta_0}{s_D/\sqrt n}\sim t_{n-1}\) exactly under \(H_0\) if differences are normal.
+
+        \textbf{Check assumptions on the differences}, not on each occasion separately.
+      \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Practice: which test would you use? (1)}
+  \small
+  \begin{enumerate}
+    \item Twelve patients have blood pressure measured before and after a program.
+      The within-patient differences are strongly right-skewed. The question is
+      whether the \emph{median difference} is zero. Which test would you use?
+    \vspace{5mm}
+    \item Two unrelated treatment groups each contain about 15 patients.
+      Outcomes look roughly normal, but one group's spread is much larger.
+      The question is whether the \emph{population means} differ.
+      Which test would you use?
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Practice: which test would you use? (2)}
+  \small
+  \begin{enumerate}
+    \setcounter{enumi}{2}
+    \item In a small randomized trial, eight participants receive each treatment.
+      The outcome is highly skewed. You want to use the difference in sample means
+      and the actual treatment assignment to test for an effect.
+      Which test would you use?
+    \vspace{5mm}
+    \item Two independent groups have similar sample means, but the investigator
+      suspects that their \emph{overall outcome distributions} differ in shape.
+      Outcomes are continuous. Which test would you use?
+  \end{enumerate}
+\end{frame}
+\begin{frame}{Practice answers}
+  \small
+  \begin{enumerate}
+    \item \textbf{Sign test on the paired differences.}
+      The target is the median difference, and the differences are strongly skewed;
+      the sign test does not require symmetry.
+    \vspace{2mm}
+    \item \textbf{Welch two-sample \(t\)-test.}
+      The groups are independent and the target is a difference in means;
+      Welch allows unequal variances.
+    \vspace{2mm}
+    \item \textbf{Permutation test using the difference in means.}
+      Reassign treatment labels according to the trial's randomization scheme
+      to obtain the null distribution.
+    \vspace{2mm}
+    \item \textbf{Two-sample Kolmogorov--Smirnov test.}
+      The question concerns the entire distributions, including possible
+      differences in shape despite similar means.
+  \end{enumerate}
+\end{frame}\end{document}
