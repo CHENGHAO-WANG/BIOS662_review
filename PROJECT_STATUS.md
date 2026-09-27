@@ -3,20 +3,17 @@
 This repository contains a 16:9 LaTeX Beamer lecture for the BIOS 662 TA review
 session on September 28, 2026. The current deck covers parallel-group versus
 crossover designs, clinical-trial phases, bootstrap sample-size terminology,
-percentile, basic percentile, normal-approximation, and bootstrap-t
-confidence intervals,
+percentile and bootstrap-t confidence intervals,
 exact versus large-sample inference, and confidence intervals for a population
 median. It also includes an HW2-Q1(e) module comparing base R and ggplot2
 boxplots, plus an HW2-Q2(d) module on reclassifying patient #11, with an iPGE
 scatter plot, before/after group summaries, and proofs of the sample-variance
 conditions for adding or removing an observation. Final frames cover the variance
 of a sample mean, its sample-based estimate, and linear transformations of a
-univariate and multivariate normal variables. The final review module
-explains the Berry-Esseen bound, the absolute-third-moment/skewness
-distinction, and the Cauchy counterexample. It also lists approaches to
-nonnormal data and summarizes one-sample and independent two-sample tests,
-paired-data choices, and four test-selection practice scenarios with an
-answer key.
+univariate and multivariate normal variables. The final review module lists
+approaches to nonnormal data and summarizes one-sample and independent
+two-sample tests, paired-data choices, and four test-selection practice
+scenarios with an answer key.
 It uses standard Beamer
 packages and the Madrid theme so it can compile
 with a normal MiKTeX or TeX Live installation.
